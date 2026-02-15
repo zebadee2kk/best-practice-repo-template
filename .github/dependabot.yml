@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: "npm" # or pip, cargo, etc.
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "zebadee2kk"
+    assignees:
+      - "zebadee2kk"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
