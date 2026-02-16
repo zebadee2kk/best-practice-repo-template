@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript' ] # Adjust based on project
+        language: [ 'javascript', 'python' ] # Adjust based on project
 
     steps:
     - name: Checkout repository
