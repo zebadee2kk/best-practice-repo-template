@@ -10,11 +10,13 @@ This document outlines the development standards and workflows for this project.
 - **Local Config**: Copy `.env.example` to `.env` and fill in secrets.
 
 ## 🌿 Branching Strategy
-We use a simplified **GitHub Flow**:
-1. `main` is always production-ready.
-2. Create feature branches from `main` (e.g., `feat/login-system` or `fix/button-alignment`).
-3. Open a PR to `main` for review.
+We use a trunk-based GitHub Flow with optional release branches:
+1. `main` is always production-ready and protected (no direct pushes).
+2. Create short-lived branches from `main` using prefixes:
+  - `feat/`, `fix/`, `docs/`, `chore/`, `refactor/`, `test/`, `build/`, `ci/`, `ai/`
+3. Open a PR to `main` for review and required checks.
 4. Merge using "Squash and Merge" to keep history clean.
+5. Use `release/*` only for stabilization; `hotfix/*` for urgent fixes, then merge back to `main`.
 
 ## ✍️ Coding Standards
 - **Linting**: Run `npm run lint` before committing.

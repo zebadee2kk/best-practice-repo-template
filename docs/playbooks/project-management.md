@@ -16,8 +16,15 @@ How we track work, manage priorities, and coordinate contributions.
 
 ## 🧐 PR Reviews
 - **Approval**: At least one approval from a CODEOWNER is required.
+- **AI-assisted PRs**: Require a human sponsor and at least one additional reviewer.
 - **Tone**: Be helpful and respectful. Goal is code quality, not "winning".
 - **Timeline**: Aim to review PRs within 48 hours.
+
+## 🔒 Branch Protection (Repo Settings)
+- **Protected branches**: `main`, `release/*`
+- **Required reviews**: CODEOWNER review + required checks
+- **No direct pushes**: PRs only, squash merge
+- **Status checks**: CI, security scan, lint/test as applicable
 
 ## 🗓️ Communication
 - **Async First**: Use GitHub Issues/Discussions for most things.
