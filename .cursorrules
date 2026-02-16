@@ -1,0 +1,39 @@
+# AI Agent Instructions & Repo Context
+
+This file serves as a guide for AI agents (Claude, Gemini, Antigravity, Copilot, etc.) interacting with this repository.
+
+## 🧠 Repository Context
+- **Purpose**: [Briefly describe what this specific project does]
+- **Architecture**: Polyglot structure supporting Node.js, Python, or standard generic projects.
+- **Tone**: Professional, clean, and maintainable code.
+
+## 🤖 Interaction Guidelines
+
+### 1. Code Generation Rules
+- **Formatting**: Always respect the `.editorconfig` (Indent style: Space, Size: 2, or as defined).
+- **Comments**: Write meaningful comments for complex logic. Avoid redundant comments like `// sets x to 1`.
+- **Types**:
+  - If **TypeScript**, be strict. Use interfaces/types over `any`.
+  - If **Python**, use Type Hints (`def foo(bar: str) -> bool:`).
+- **Error Handling**: Always implement proper error handling (try/catch in JS, try/except in Python).
+
+### 2. File Organization
+- **New Components/Modules**: Place them in readable subdirectories. Avoid flat structures.
+- **Tests**: Locate tests near the implementation (e.g., `src/foo/foo.test.ts` or `tests/test_foo.py`).
+
+### 3. Workflow Awareness
+- **Before Editing**: Read `README.md` and related `docs/playbooks/` to understand the project architecture.
+- **After Editing**: Suggest updating documentation if the change affects architecture or usage.
+
+## 🛠️ Tech Stack Detection
+- If `package.json` exists -> **Node.js/TypeScript** environment.
+- If `requirements.txt` / `pyproject.toml` exists -> **Python** environment.
+- If `Dockerfile` exists -> **Containerized** environment.
+
+## 📝 Commit Message Convention
+When suggesting commit messages, follow Conventional Commits:
+- `feat: ...` for new features
+- `fix: ...` for bug fixes
+- `impr: ...` for improvements
+- `docs: ...` for documentation
+- `refactor: ...` for code reorganization

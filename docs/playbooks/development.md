@@ -3,34 +3,58 @@
 This document outlines the development standards and workflows for this project.
 
 ## 🛠️ Environment Setup
-- **Required Tools**: 
-  - Node.js LTS
-  - Git
-  - Docker (if applicable)
-- **Local Config**: Copy `.env.example` to `.env` and fill in secrets.
+
+### Prerequisites
+Ensure you have the correct runtime for the specific project type:
+
+- **Node.js Projects** (`package.json` present):
+  - Install Node.js LTS.
+  - Run `npm install` or `yarn` or `pnpm install`.
+- **Python Projects** (`requirements.txt` / `pyproject.toml` present):
+  - Install Python 3.10+.
+  - Create a virtual environment: `python -m venv venv`.
+  - Activate source: `source venv/bin/activate` (Linux/Mac) or `venv\Scripts\activate` (Windows).
+  - Install deps: `pip install -r requirements.txt`.
+
+### Local Configuration
+1. Copy `.env.example` to `.env`.
+2. Fill in the required secrets and API keys.
 
 ## 🌿 Branching Strategy
-We use a trunk-based GitHub Flow with optional release branches:
-1. `main` is always production-ready and protected (no direct pushes).
-2. Create short-lived branches from `main` using prefixes:
-  - `feat/`, `fix/`, `docs/`, `chore/`, `refactor/`, `test/`, `build/`, `ci/`, `ai/`
-3. Open a PR to `main` for review and required checks.
-4. Merge using "Squash and Merge" to keep history clean.
-5. Use `release/*` only for stabilization; `hotfix/*` for urgent fixes, then merge back to `main`.
+We use a **Trunk-Based Development** flow:
+
+1. `main` is the single source of truth.
+2. Create short-lived feature branches: `feat/my-feature` or `fix/issue-123`.
+3. Open a Pull Request (PR) to merge into `main`.
+4. **Squash and Merge** is preferred to keep history linear.
 
 ## ✍️ Coding Standards
-- **Linting**: Run `npm run lint` before committing.
-- **Formatting**: We use Prettier. Auto-format on save is recommended.
-- **Naming**: Use `camelCase` for variables and `PascalCase` for components.
+
+### General
+- **Naming**: Use descriptive variable names (`isAuthenticated` vs `a`).
+- **Comments**: Explain "Why", not "What".
+- **Formatting**: We use `Prettier` (JS/TS) and `Black` (Python) where possible.
+
+### JavaScript / TypeScript
+- Linting: `npm run lint`
+- Formatting: `npm run format`
+
+### Python
+- Linting: `flake8`
+- Formatting: `black .`
 
 ## 🧪 Testing Strategy
 - **Unit Tests**: Required for all business logic.
-- **Integration Tests**: Required for critical paths.
-- **Coverage**: Aim for >80% coverage.
+- **Coverage**: Aim for >80% coverage on critical paths.
+- **Run Tests**:
+  - JS: `npm test`
+  - Python: `pytest`
 
 ## 📦 Commits
 Follow [Conventional Commits](https://www.conventionalcommits.org/):
-- `feat:` for new features
-- `fix:` for bug fixes
-- `docs:` for documentation changes
-- `chore:` for maintenance
+- `feat:` New features
+- `fix:` Bug fixes
+- `docs:` Documentation changes
+- `chore:` Maintenance tasks
+- `refactor:` Code restructuring without behavioral change
+

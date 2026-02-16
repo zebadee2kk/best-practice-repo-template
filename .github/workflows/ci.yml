@@ -7,20 +7,85 @@ on:
     branches: [ "main", "release/*", "hotfix/*" ]
 
 jobs:
-  build:
+  # ------------------------------------------------------------------
+  # Node.js Pipeline
+  # Runs only if package.json exists
+  # ------------------------------------------------------------------
+  node-ci:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
-
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
+    
+    - name: Check for Node.js project
+      id: check_node
+      run: |
+        if [ -f "package.json" ]; then
+          echo "exists=true" >> $GITHUB_OUTPUT
+        else
+          echo "exists=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Setup Node.js
+      if: steps.check_node.outputs.exists == 'true'
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 'lts/*'
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+
+    - name: Install Dependencies
+      if: steps.check_node.outputs.exists == 'true'
+      run: npm ci
+
+    - name: Run Lint
+      if: steps.check_node.outputs.exists == 'true'
+      run: npm run lint --if-present
+
+    - name: Run Tests
+      if: steps.check_node.outputs.exists == 'true'
+      run: npm test --if-present
+
+  # ------------------------------------------------------------------
+  # Python Pipeline
+  # Runs only if requirements.txt or pyproject.toml exists
+  # ------------------------------------------------------------------
+  python-ci:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Check for Python project
+      id: check_python
+      run: |
+        if [ -f "requirements.txt" ] || [ -f "pyproject.toml" ]; then
+          echo "exists=true" >> $GITHUB_OUTPUT
+        else
+          echo "exists=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Setup Python
+      if: steps.check_python.outputs.exists == 'true'
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+        cache: 'pip'
+
+    - name: Install Dependencies
+      if: steps.check_python.outputs.exists == 'true'
+      run: |
+        if [ -f "requirements.txt" ]; then pip install -r requirements.txt; fi
+        if [ -f "pyproject.toml" ]; then pip install .; fi
+        pip install pytest flake8
+
+    - name: Lint with Flake8
+      if: steps.check_python.outputs.exists == 'true'
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings.
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    - name: Test with pytest
+      if: steps.check_python.outputs.exists == 'true'
+      run: |
+        pytest
+
